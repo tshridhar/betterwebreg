@@ -1,2 +1,2 @@
 # betterwebreg
-Program using Selenium to navigate the poorly designed WebReg site (UCI registration site) and register for classes
+A program created with the intent of being a more user friendly/easier to use version of WebReg (UCI's registration).
