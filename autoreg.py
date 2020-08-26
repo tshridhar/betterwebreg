@@ -72,6 +72,6 @@ driver.get(SITE_URL)
 f = open(Path(FILENAME), 'r')
 
 c = Executor(f, driver)
-# c.exec()
+c.exec()
 
 f.close()
