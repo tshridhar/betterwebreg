@@ -4,7 +4,7 @@
 from pathlib import Path
 class Executor:
     def __init__(self, file : "Open file", driver : "WebDriver"):
-        self._info = {"username" : "", "password" : "", "instruction" : []}
+        self._info = {"username" : "", "password" : "", "instructions" : []}
         self._file = file
         self.driver = driver
         self._read_from_file()
@@ -12,36 +12,28 @@ class Executor:
     def _read_from_file(self):
         self._info["username"], self._info["password"] = self._file.readline().rstrip().split()
         for i in self._file.readlines():
-            self._info["instruction"].append(tuple(i.rstrip().split()))
+            self._info["instructions"].append(tuple(i.rstrip().split()))
 
     def _login(self):
-        user_form = self.driver.find_element_by_id("ucinetid")
-        pass_form = self.driver.find_element_by_id("password")
-        submit_button = self.driver.find_element_by_xpath("//input[@type ='submit']")
-        user_form.send_keys(self._info["username"])
-        pass_form.send_keys(self._info["password"])
-        submit_button.click()
+        self.driver.find_element_by_id("ucinetid").send_keys(self._info["username"])
+        self.driver.find_element_by_id("password").send_keys(self._info["password"])
+        self.driver.find_element_by_xpath("//input[@type ='submit']").click()
 
     def _logout(self):
-        logout_button = self.driver.find_element_by_xpath("//input[@value='Logout']")
-        logout_button.click()
+        self.driver.find_element_by_xpath("//input[@value='Logout']").click()
+        self.driver.quit()
 
-    def exec(self):
+    def _exec(self):
+        for i in self._info["instructions"]:
+            driver.find_element_by_id("{instr}".format(instr=i[0].lower())).click()
+            driver.find_element_by_xpath("//input[@name='courseCode']").send_keys(i[1])
+            driver.find_element_by_xpath("//input[@value='Send Request']").click()
+
+    def run(self):
         self._login()
-        enrollment_menu_button = self.driver.find_element_by_xpath("//input[@value='Enrollment Menu']")
-        enrollment_menu_button.click()
+        self.driver.find_element_by_xpath("//input[@value='Enrollment Menu']").click()
+        self._exec()
         self._logout()
-
-    ### "ADD" Functionality disabled temporarily ####
-
-    # add_class_radio = driver.find_element_by_id("add")
-    # add_class_radio.click()
-
-    # course_code_form = driver.find_element_by_xpath("//input[@name='courseCode']")
-    # course_code_form.send_keys(CLASSES[0])
-
-    # request_button = driver.find_element_by_xpath("//input[@value='Send Request']")
-    # request_button.click()
 
 from selenium import webdriver
 from chromedriver_py import binary_path
@@ -72,6 +64,6 @@ driver.get(SITE_URL)
 f = open(Path(FILENAME), 'r')
 
 c = Executor(f, driver)
-c.exec()
+c.run()
 
 f.close()
