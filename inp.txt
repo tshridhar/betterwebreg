@@ -1,10 +1,5 @@
-username
-peteranteater
-password
-goanteater
-add
-34310
-34314
-drop
-34310
-34314
+peteranteater anteaterpass
+add 34310
+add 34314
+drop 34310
+drop 34314

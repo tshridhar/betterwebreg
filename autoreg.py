@@ -1,20 +1,18 @@
 """ FUTURE VERSION WILL BE HEADLESS """
-""" THIS IS STILL A TESTING BUILD   """
+""" THIS IS A TESTING BUILD         """
 
 from pathlib import Path
-class Instruction:
-    def __init__(self, file, driver):
-        self._info = {"username" : [], "password" : [], "add" : [], "drop" : []}
-        self.curr_instr = ""
-        self.file = file
+class Executor:
+    def __init__(self, file : "Open file", driver : "WebDriver"):
+        self._info = {"username" : "", "password" : "", "instruction" : []}
+        self._file = file
         self.driver = driver
         self._read_from_file()
 
     def _read_from_file(self):
-        for i in self.file.readlines():
-            if self.curr_instr in self._info.keys() and i.strip() not in self._info.keys():
-                self._info[self.curr_instr].append(i.strip())
-            self.curr_instr = i.strip() if i.strip() in self._info.keys() else self.curr_instr
+        self._info["username"], self._info["password"] = self._file.readline().rstrip().split()
+        for i in self._file.readlines():
+            self._info["instruction"].append(tuple(i.rstrip().split()))
 
     def _login(self):
         user_form = self.driver.find_element_by_id("ucinetid")
@@ -28,7 +26,7 @@ class Instruction:
         logout_button = self.driver.find_element_by_xpath("//input[@value='Logout']")
         logout_button.click()
 
-    def exec_instr(self):
+    def exec(self):
         self._login()
         enrollment_menu_button = self.driver.find_element_by_xpath("//input[@value='Enrollment Menu']")
         enrollment_menu_button.click()
@@ -52,6 +50,20 @@ from chromedriver_py import binary_path
 SITE_URL = "https://www.reg.uci.edu/cgi-bin/webreg-redirect.sh"
 FILENAME = "inp.txt"
 
+"""
+==============Expected Input Format================
+"Instruction" and "value" (excluding the first line, 
+which should always be username/password)
+e.g.
+peteranteater anteaterpass
+add 60000
+add 60003
+drop 10290
+drop 10292
+(in the order of desired execution)
+===================================================
+"""
+
 # INITIALIZE DRIVER
 driver = webdriver.Chrome(executable_path=binary_path)
 driver.get(SITE_URL)
@@ -59,7 +71,7 @@ driver.get(SITE_URL)
 # OPEN 
 f = open(Path(FILENAME), 'r')
 
-c = Instruction(f, driver)
-c.exec_instr()
+c = Executor(f, driver)
+# c.exec()
 
 f.close()
