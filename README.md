@@ -2,6 +2,7 @@
 An application created with the intent being a more user friendly version of UCI's WebReg site for personal use. Developed in Python with Selenium to automate tedious menu navigation. Currently being built incrementally.
 ### Background
 WebReg is infamous among UCI students for being usable, but rather annoying and inconvenient. A brief look at the current site:
+
 <img src='https://i.gyazo.com/7e64c7eba5ceefedc7be9105c61e1a20.png' title='Current WebReg' width='300' />
 
 Things like the current study list, waitlist, and various options should always be available on the same menu. This application is being built with the intent of replacing the need to always have at least 3 tabs open (WebSoC, AntAlmanac, WebReg) and adding some QoL features.
