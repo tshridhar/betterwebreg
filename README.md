@@ -1,5 +1,5 @@
 # BetterWebReg
-An application created with the intent being a more user friendly version of UCI's WebReg site for personal use. Developed in Python with Selenium to automate tedious menu navigation. Currently being built incrementally.
+An application created with the intent being a more user friendly version of UCI's WebReg site for personal use. Developed in Python with Selenium to automate tedious menu navigation. Currently being built incrementally, with UI dev planned using Kivy.
 ### Background
 The UCI registration system is known for being usable, but rather annoying and inconvenient. A brief look at the current site:
 
